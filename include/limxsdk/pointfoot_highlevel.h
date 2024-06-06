@@ -106,6 +106,6 @@ namespace limxsdk {
        */
       PointFootHighLevel();
   };
-};
+}
 
 #endif
