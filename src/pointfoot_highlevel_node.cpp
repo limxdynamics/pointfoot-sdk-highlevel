@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @file pointfoot_highlevel_node.cpp
  *
  * @brief Provides ROS interface for controlling the robot
@@ -26,7 +26,7 @@ static void twistCallback(const geometry_msgs::Twist::ConstPtr& msg) {
   // Check if the robot pointer is not null
   if (robot != nullptr) {
     // Call the publishTwist method of the robot object with linear x, y, and z values extracted from the received message
-    robot->publishTwist((float)msg->linear.x, (float)msg->linear.y, (float)msg->linear.z);
+    robot->publishTwist((float)msg->linear.x, (float)msg->linear.y, (float)msg->angular.z);
   }
 }
 
