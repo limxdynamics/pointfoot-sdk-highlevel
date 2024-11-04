@@ -38,6 +38,14 @@ namespace limxsdk {
   typedef std::shared_ptr<ImuData> ImuDataPtr;
   typedef std::shared_ptr<ImuData const> ImuDataConstPtr;
 
+  // Define robot modes
+  enum class RobotMode {
+    STAND,      // Stand
+    WALK,       // Walk
+    SITDOWN,    // Sit down
+    EMERGENCY   // Emergency Stop
+  };
+
   /**
    * @brief Class for controlling a point-foot robot using the LIMX SDK API.
    */
@@ -57,11 +65,24 @@ namespace limxsdk {
       bool init(const std::string& robot_ip_address = "10.192.1.2");
 
       /**
-       * @brief Publishes a twist command to control the robot's actions.
+       * @brief Sets the current mode of the robot.
        * 
-       * @param x Linear velocity along the x-axis.
-       * @param y Linear velocity along the y-axis.
-       * @param z Angular velocity around the z-axis.
+       * This function transitions the robot between different operational modes.
+       * 
+       * @param mode The new mode to switch the robot to.
+       */
+      void setRobotMode(RobotMode mode);
+
+      /**
+       * @brief Publishes a twist command to control the robot's movement in the WALK mode.
+       * 
+       * This function sends a twist command to control the robot's linear and angular velocities.
+       * It is used to direct the robot's motion along the x and y axes and to rotate around the z-axis.
+       * The command is applicable only when the robot is in the WALK mode.
+       * 
+       * @param x Linear velocity along the x-axis (forward/backward).
+       * @param y Linear velocity along the y-axis (left/right).
+       * @param z Angular velocity around the z-axis (rotation).
        * @return True if the twist command was successfully published, otherwise false.
        */
       bool publishTwist(float x, float y, float z);

@@ -9,6 +9,7 @@
 #include <ros/ros.h>
 #include <sensor_msgs/Imu.h>
 #include <geometry_msgs/Twist.h>
+#include <std_msgs/Int32.h>
 #include <diagnostic_msgs/DiagnosticStatus.h>
 #include <limxsdk/pointfoot_highlevel.h>
 
@@ -30,6 +31,34 @@ static void twistCallback(const geometry_msgs::Twist::ConstPtr& msg) {
   }
 }
 
+// Callback function that handles std_msgs::Int32 messages
+static void modeCallback(const std_msgs::Int32::ConstPtr& msg) {
+  // Check if the robot pointer is not null
+  if (robot != nullptr) {
+    switch (msg->data) {
+    case 0: {
+      robot->setRobotMode(limxsdk::RobotMode::STAND);
+      break;
+    }
+    case 1: {
+      robot->setRobotMode(limxsdk::RobotMode::WALK);
+      break;
+    }
+    case 2: {
+      robot->setRobotMode(limxsdk::RobotMode::SITDOWN);
+      break;
+    }
+    case 3: {
+      robot->setRobotMode(limxsdk::RobotMode::EMERGENCY);
+      break;
+    }
+    
+    default:
+      break;
+    }
+  }
+}
+
 int main(int argc, char** argv)
 {
   // Initialize the ROS node with the name "pointfoot_highlevel_node"
@@ -40,6 +69,7 @@ int main(int argc, char** argv)
   ros::Publisher imu_pub = nh.advertise<sensor_msgs::Imu>("/topic/limx/imu", 10);
   ros::Publisher diag_pub = nh.advertise<diagnostic_msgs::DiagnosticStatus>("/topic/limx/diagnostic", 10);
   ros::Subscriber twist_sub = nh.subscribe("/topic/limx/twist", 1, &twistCallback);
+  ros::Subscriber robot_mode_sub = nh.subscribe("/topic/limx/mode", 1, &modeCallback);
   
   // Retrieve the robot IP parameter from the NodeHandle, defaulting to "10.192.1.2" if not found
   std::string ip = nh.param<std::string>("robot_ip", "10.192.1.2");
