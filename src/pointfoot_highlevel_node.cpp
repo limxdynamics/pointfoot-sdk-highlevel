@@ -52,7 +52,14 @@ static void modeCallback(const std_msgs::Int32::ConstPtr& msg) {
       robot->setRobotMode(limxsdk::RobotMode::EMERGENCY);
       break;
     }
-    
+    case 4: {
+      robot->setRobotMode(limxsdk::RobotMode::STAIR_MODE_ENTER);
+      break;
+    }
+    case 5: {
+      robot->setRobotMode(limxsdk::RobotMode::STAIR_MODE_EXIT);
+      break;
+    }
     default:
       break;
     }
