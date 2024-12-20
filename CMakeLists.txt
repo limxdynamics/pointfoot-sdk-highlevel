@@ -60,7 +60,7 @@ if(DEFINED ENV{ROS_DISTRO})
 
     link_directories( ${LIB_PATH} )
 
-    add_executable(pointfoot_highlevel_node ${PROJECT_SOURCE_DIR}/src/pointfoot_highlevel_node.cpp)
+    add_executable(pointfoot_highlevel_node ${PROJECT_SOURCE_DIR}/src/ros1/pointfoot_highlevel_node.cpp)
 
     target_link_libraries(pointfoot_highlevel_node  pointfoot_highlevel ${catkin_LIBRARIES})
 
@@ -70,7 +70,7 @@ if(DEFINED ENV{ROS_DISTRO})
     install(DIRECTORY ${LIB_PATH}/. DESTINATION ${CATKIN_GLOBAL_LIB_DESTINATION})
 
     # Install launch files to build output
-    install(DIRECTORY launch DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
+    install(FILES launch/ros1/pointfoot_highlevel.launch DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/launch)
 
     # Install pointfoot_highlevel_node files to build output
     install(TARGETS pointfoot_highlevel_node RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
@@ -80,6 +80,11 @@ if(DEFINED ENV{ROS_DISTRO})
     message("Currently in ROS2 compilation environment")
 
     find_package(ament_cmake REQUIRED)
+    find_package(rclcpp REQUIRED)
+    find_package(sensor_msgs REQUIRED)
+    find_package(geometry_msgs REQUIRED)
+    find_package(std_msgs REQUIRED)
+    find_package(diagnostic_msgs REQUIRED)
 
     if (${CMAKE_SYSTEM_PROCESSOR} MATCHES "aarch64")
       set(LIB_PATH ${PROJECT_SOURCE_DIR}/lib/aarch64)
@@ -95,10 +100,26 @@ if(DEFINED ENV{ROS_DISTRO})
 
     link_directories( ${LIB_PATH} )
 
+    add_executable(pointfoot_highlevel_node ${PROJECT_SOURCE_DIR}/src/ros2/pointfoot_highlevel_node.cpp)
+
+    target_link_libraries(pointfoot_highlevel_node pointfoot_highlevel)
+
+    ament_target_dependencies(pointfoot_highlevel_node
+      rclcpp
+      sensor_msgs
+      geometry_msgs
+      std_msgs
+      diagnostic_msgs
+    )
+
     install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_PREFIX}/include/)
     
     # Install library files to build output
     install(DIRECTORY ${LIB_PATH}/. DESTINATION ${CMAKE_INSTALL_PREFIX}/lib)
+    
+    install(TARGETS pointfoot_highlevel_node DESTINATION lib/${PROJECT_NAME})
+
+    install(FILES launch/ros2/pointfoot_highlevel.launch.py DESTINATION share/${PROJECT_NAME}/launch)
 
     # Export the library
     ament_export_libraries(pointfoot_highlevel)
