@@ -148,6 +148,12 @@ else()
 
   link_directories(${LIB_PATH})
 
+  add_executable(pointfoot_highlevel_example ${PROJECT_SOURCE_DIR}/src/nonros/pointfoot_highlevel_example.cpp)
+
+  target_link_libraries(pointfoot_highlevel_example pointfoot_highlevel pthread)
+    
+  install(TARGETS pointfoot_highlevel_example DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)
+
   install(DIRECTORY ${PROJECT_SOURCE_DIR}/include DESTINATION ${CMAKE_INSTALL_PREFIX})
   
   # Install library files to build output

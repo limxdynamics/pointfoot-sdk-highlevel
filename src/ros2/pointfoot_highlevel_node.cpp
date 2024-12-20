@@ -4,6 +4,13 @@
  * @brief Provides ROS 2 interface for controlling the robot
  *
  * © [2023] LimX Dynamics Technology Co., Ltd. All rights reserved.
+ * 
+ * Build:
+ * $ colcon build --cmake-args -DCMAKE_BUILD_TYPE=Release
+ * 
+ * Run:
+ * $ source install/setup.bash
+ * $ ros2 launch pointfoot_highlevel  pointfoot_highlevel.launch.py
  */
 
 #include <rclcpp/rclcpp.hpp>

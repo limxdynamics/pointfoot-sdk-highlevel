@@ -1,9 +1,16 @@
 /**
  * @file pointfoot_highlevel_node.cpp
  *
- * @brief Provides ROS interface for controlling the robot
+ * @brief Provides a ROS interface for controlling the robot.
  *
  * © [2023] LimX Dynamics Technology Co., Ltd. All rights reserved.
+ * 
+ * Build:
+ * $ catkin_make install
+ * 
+ * Run:
+ * $ source install/setup.bash
+ * $ roslaunch pointfoot_highlevel pointfoot_highlevel.launch
  */
 
 #include <ros/ros.h>
