@@ -42,8 +42,10 @@ namespace limxsdk {
   enum class RobotMode {
     STAND,           // Robot is in a standing posture
     WALK,            // Robot is walking
-    STAIR_MODE_ENTER,// Enter stair mode
+    STAIR_MODE_ENTER, // Enter stair mode
     STAIR_MODE_EXIT, // Exit stair mode
+    MARKTIME_MODE_ENTER, // Enter marktime mode
+    MARKTIME_MODE_EXIT, // Exit marktime mode
     SITDOWN,         // Robot is sitting down
     EMERGENCY        // Robot is in emergency stop mode
   };
